@@ -81,8 +81,8 @@
                     
                     raw.forEach(function(d){
 
+                        d.subdistrict = shortenString(d.subdistrict);
                         d.district = shortenString(d.district);
-                        d.amphoe = shortenString(d.amphoe);
                         d.province = shortenString(d.province);
 
                         var index = findIndexByFirstValue(db, d.province);
@@ -95,19 +95,19 @@
 
                         index = findIndexByFirstValue(db, d.province);
                         
-                        var index2 = findIndexByFirstValue(db[index][1], d.amphoe);
+                        var index2 = findIndexByFirstValue(db[index][1], d.district);
                         if(index2 < 0){
-                            db[index][1].push([d.amphoe,[]])
-                            geodb[index][2].push([d.amphoe,'',[]])
+                            db[index][1].push([d.district,[]])
+                            geodb[index][2].push([d.district,'',[]])
                         }
                         
-                        index2 = findIndexByFirstValue(db[index][1], d.amphoe);
+                        index2 = findIndexByFirstValue(db[index][1], d.district);
 
-                        db[index][1][index2][1].push([d.district, d.zipcode]);
+                        db[index][1][index2][1].push([d.subdistrict, d.zipcode]);
 
                         geodb[index][1] = d.province_code;
-                        geodb[index][2][index2][1] = d.amphoe_code;
-                        geodb[index][2][index2][2].push([d.district, d.district_code, d.zipcode]);
+                        geodb[index][2][index2][1] = d.district_code;
+                        geodb[index][2][index2][2].push([d.subdistrict, d.subdistrict_code, d.zipcode]);
                     });
 
                     logs('บีบอัดข้อมูลสำเร็จ');

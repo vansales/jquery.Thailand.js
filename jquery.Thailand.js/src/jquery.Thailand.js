@@ -11,7 +11,7 @@
  *              JQL.js <https://github.com/earthchie/JQL.js>
  **/
 
-$.Thailand = function (options) {
+ $.Thailand = function (options) {
     'use strict';
 
     options = $.extend({}, $.Thailand.defaults, options);
@@ -43,7 +43,7 @@ $.Thailand = function (options) {
             };
 
             // decompacted database in hierarchical form of:
-            // [["province",[["amphur",[["district",["zip"...]]...]]...]]...]
+            // [["province",[["amphur",[["subdistrict",["zip"...]]...]]...]]...]
             data.map(function (provinces) {
 
                 var i = 1;
@@ -51,19 +51,19 @@ $.Thailand = function (options) {
                     i = 2;
                 }
 
-                provinces[i].map(function (amphoes) {
-                    amphoes[i].map(function (districts) {
-                        districts[i] = districts[i] instanceof Array ? districts[i] : [districts[i]];
-                        districts[i].map(function (zipcode) {
+                provinces[i].map(function (districts) {
+                    districts[i].map(function (subdistricts) {
+                        subdistricts[i] = subdistricts[i] instanceof Array ? subdistricts[i] : [subdistricts[i]];
+                        subdistricts[i].map(function (zipcode) {
                             var entry = {
+                                subdistrict: t(subdistricts[0]),
                                 district: t(districts[0]),
-                                amphoe: t(amphoes[0]),
                                 province: t(provinces[0]),
                                 zipcode: zipcode
                             };
                             if(i === 2){ // geographic database
+                                entry.subdistrict_code = subdistricts[1] || false;
                                 entry.district_code = districts[1] || false;
-                                entry.amphoe_code = amphoes[1] || false;
                                 entry.province_code = provinces[1] || false;
                             }
                             expanded.push(entry);
@@ -204,7 +204,7 @@ $.Thailand = function (options) {
                     if (data.zipcode) {
                         data.zipcode = ' » ' + data.zipcode;
                     }
-                    return '<div>' + data.district + ' » ' + data.amphoe + ' » ' + data.province + data.zipcode + '</div>';
+                    return '<div>' + data.subdistrict + ' » ' + data.district + ' » ' + data.province + data.zipcode + '</div>';
                 }
             },
             autocomplete_handler = function (e, v) { // set value when user selected autocomplete choice
@@ -265,8 +265,8 @@ $.Thailand = function (options) {
                         possibles = new JQL(possibles
                             .concat(DB.select('*').where('zipcode').match(str).fetch())
                             .concat(DB.select('*').where('province').match(str).fetch())
-                            .concat(DB.select('*').where('amphoe').match(str).fetch())
                             .concat(DB.select('*').where('district').match(str).fetch())
+                            .concat(DB.select('*').where('subdistrict').match(str).fetch())
                             .map(function(item){
                                 return JSON.stringify(item);
                             }).filter(function(item, pos, self){
@@ -275,8 +275,8 @@ $.Thailand = function (options) {
 
                                 self = JSON.parse(self);
                                 self.likely = [
-                                    similar_text(str, self.district) * 5,
-                                    similar_text(str, self.amphoe.replace(/^เมือง/, '')) * 3,
+                                    similar_text(str, self.subdistrict) * 5,
+                                    similar_text(str, self.district.replace(/^เมือง/, '')) * 3,
                                     similar_text(str, self.province),
                                     similar_text(str, self.zipcode)
                                 ].reduce(function (a, b) {
@@ -331,10 +331,10 @@ $.Thailand.defaults = {
     onLoad: function () {},
     onDataFill: function () {},
     templates: false,
+    $subdistrict: false,
+    $subdistrict_code: false, // geodb only
     $district: false,
     $district_code: false, // geodb only
-    $amphoe: false,
-    $amphoe_code: false, // geodb only
     $province: false,
     $province_code: false, // geodb only
     $zipcode: false,
