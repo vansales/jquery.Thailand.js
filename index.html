@@ -59,12 +59,12 @@
 
             <div class="uk-width-1-2@m">
                 <label class="h2">ตำบล / แขวง</label>
-                <input name="district" class="uk-input uk-width-1-1" type="text">
+                <input name="subdistrict" class="uk-input uk-width-1-1" type="text">
             </div>
 
             <div class="uk-width-1-2@m">
 				<label class="h2">อำเภอ / เขต</label>
-				<input name="amphoe" class="uk-input uk-width-1-1" type="text">
+				<input name="district" class="uk-input uk-width-1-1" type="text">
             </div>
 
             <div class="uk-width-1-2@m">
@@ -140,8 +140,8 @@
         $.Thailand({
             database: './jquery.Thailand.js/database/db.json', 
 
+            $subdistrict: $('#demo1 [name="subdistrict"]'),
             $district: $('#demo1 [name="district"]'),
-            $amphoe: $('#demo1 [name="amphoe"]'),
             $province: $('#demo1 [name="province"]'),
             $zipcode: $('#demo1 [name="zipcode"]'),
 
@@ -157,10 +157,10 @@
 
         // watch on change
 
-        $('#demo1 [name="district"]').change(function(){
+        $('#demo1 [name="subdistrict"]').change(function(){
             console.log('ตำบล', this.value);
         });
-        $('#demo1 [name="amphoe"]').change(function(){
+        $('#demo1 [name="district"]').change(function(){
             console.log('อำเภอ', this.value);
         });
         $('#demo1 [name="province"]').change(function(){
@@ -181,7 +181,7 @@
 
             onDataFill: function(data){
                 console.log(data)
-                var html = '<b>ที่อยู่:</b> ตำบล' + data.district + ' อำเภอ' + data.amphoe + ' จังหวัด' + data.province + ' ' + data.zipcode;
+                var html = '<b>ที่อยู่:</b> ตำบล' + data.subdistrict + ' อำเภอ' + data.district + ' จังหวัด' + data.province + ' ' + data.zipcode;
                 $('#demo2-output').prepend('<div class="uk-alert-warning" uk-alert><a class="uk-alert-close" uk-close></a>' + html + '</div>');
             }
 

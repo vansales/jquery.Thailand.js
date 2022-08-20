@@ -97,8 +97,8 @@
 3. สร้าง input สำหรับกรอก ตำบล, อำเภอ, จังหวัด, รหัสไปรษณีย์
 
 ```html
+<input type="text" id="subdistrict">
 <input type="text" id="district">
-<input type="text" id="amphoe">
 <input type="text" id="province">
 <input type="text" id="zipcode">
 ```
@@ -109,8 +109,8 @@
 ```javascript
 
 $.Thailand({
-    $district: $('#district'), // input ของตำบล
-    $amphoe: $('#amphoe'), // input ของอำเภอ
+    $subdistrict: $('#subdistrict'), // input ของตำบล
+    $district: $('#district'), // input ของอำเภอ
     $province: $('#province'), // input ของจังหวัด
     $zipcode: $('#zipcode'), // input ของรหัสไปรษณีย์
 });
@@ -184,8 +184,8 @@ $.Thailand({
 3. สร้าง input สำหรับกรอก ตำบล, อำเภอ, จังหวัด, รหัสไปรษณีย์
 
 ```html
+<input type="text" id="subdistrict">
 <input type="text" id="district">
-<input type="text" id="amphoe">
 <input type="text" id="province">
 <input type="text" id="zipcode">
 ```
@@ -196,8 +196,8 @@ $.Thailand({
 
 $.Thailand({ 
     database: './jquery.Thailand.js/database/db.json', // path หรือ url ไปยัง database
-    $district: $('#district'), // input ของตำบล
-    $amphoe: $('#amphoe'), // input ของอำเภอ
+    $subdistrict: $('#subdistrict'), // input ของตำบล
+    $district: $('#district'), // input ของอำเภอ
     $province: $('#province'), // input ของจังหวัด
     $zipcode: $('#zipcode'), // input ของรหัสไปรษณีย์
 });
@@ -249,8 +249,8 @@ $.Thailand({
 3. สร้าง input สำหรับกรอก ตำบล, อำเภอ, จังหวัด, รหัสไปรษณีย์
 
 ```html
+<input type="text" id="subdistrict">
 <input type="text" id="district">
-<input type="text" id="amphoe">
 <input type="text" id="province">
 <input type="text" id="zipcode">
 ```
@@ -261,8 +261,8 @@ $.Thailand({
 
 $.Thailand({ 
     database: './jquery.Thailand.js/database/db.zip', // ฐานข้อมูลเป็นไฟล์ zip
-    $district: $('#district'), // input ของตำบล
-    $amphoe: $('#amphoe'), // input ของอำเภอ
+    $subdistrict: $('#subdistrict'), // input ของตำบล
+    $district: $('#district'), // input ของอำเภอ
     $province: $('#province'), // input ของจังหวัด
     $zipcode: $('#zipcode'), // input ของรหัสไปรษณีย์
 });
@@ -314,8 +314,8 @@ geodb คือฐานข้อมูลชนิดใหม่ โดยท�
 ```html
 <input type="text" id="search">
 
+<input type="text" id="subdistrict_code">
 <input type="text" id="district_code">
-<input type="text" id="amphoe_code">
 <input type="text" id="province_code">
 ```
 
@@ -326,8 +326,8 @@ $.Thailand({
 
     $search: $('#search'),
 
+    $subdistrict_code: $('#subdistrict_code'),
     $district_code: $('#district_code'),
-    $amphoe_code: $('#amphoe_code'),
     $province_code: $('#province_code'),
 
     onDataFill: function(data){
@@ -335,10 +335,10 @@ $.Thailand({
         /*
         ผลลัพธ์ที่ได้
         {
+            subdistrict: '',
+            subdistrict_code: '',
             district: '',
             district_code: '',
-            amphoe: '',
-            amphoe_code: '',
             province: '',
             province_code: '',
             zipcode: ''
@@ -372,19 +372,19 @@ $.Thailand({
     
     // input ของตำบล
     // (ไม่ระบุก็ได้หากไม่จำเป็นต้องใช้)
-    $district: $('#district'), 
+    $subdistrict: $('#subdistrict'), 
     
     // input area code ของตำบล
     // (ไม่ระบุก็ได้หากไม่จำเป็นต้องใช้)
-    $district_code: $('#district_code'), 
+    $subdistrict_code: $('#subdistrict_code'), 
     
     // input ของอำเภอ
     // (ไม่ระบุก็ได้หากไม่จำเป็นต้องใช้)
-    $amphoe: $('#amphoe'), 
+    $district: $('#district'), 
     
     // input area code ของอำเภอ
     // (ไม่ระบุก็ได้หากไม่จำเป็นต้องใช้)
-    $amphoe_code: $('#amphoe_code'), 
+    $district_code: $('#district_code'), 
     
     // input ของจังหวัด
     // (ไม่ระบุก็ได้หากไม่จำเป็นต้องใช้)
@@ -423,7 +423,7 @@ $.Thailand({
             if (data.zipcode) {
                 data.zipcode = ' » ' + data.zipcode;
             }
-            return '<div>' + data.district + ' » ' + data.amphoe + ' » ' + data.province + data.zipcode + '</div>';
+            return '<div>' + data.subdistrict + ' » ' + data.district + ' » ' + data.province + data.zipcode + '</div>';
         }
     }
 });
